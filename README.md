@@ -38,11 +38,15 @@
   - **tip**
   - **email**
   - **parola**
+  - **created_at**
+  - **updated_at**
 - **`cod`**
   - **cod_id** _(PK)_
   - **continut**
   - **profesor_id** _(FK)_
   - **este_aleatoriu**
+  - **created_at**
+  - **updated_at**
 - **`activitate`**
   - **activitate_id** _(PK)_
   - **profesor_id** _(FK)_
@@ -53,11 +57,14 @@
   - **ora_sfarsit**
   - **accesibil_de_la**
   - **accesibil_pana_la**
+  - **created_at**
+  - **updated_at**
 - **`feedback`**
   - **feedback_id**
   - **activitate_id**
-  - **creata_la**
   - **emoticon**
+  - **created_at**
+  - **updated_at**
 
 ---
 
