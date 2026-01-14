@@ -13,8 +13,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use(express.json());
-
 app.get("/health", (req, res) => {
   res.json({ ok: true });
 });
@@ -42,6 +40,10 @@ const wss = new WebSocket.Server({
 });
 
 const activityRooms = new Map();
+
+function heartbeat() {
+  this.isAlive = true;
+}
 
 function getOrCreateRoom(activityId) {
   const key = String(activityId);
@@ -96,6 +98,9 @@ function broadcastToAll(activityId, messageObj) {
 }
 
 wss.on("connection", async (ws, req) => {
+  ws.isAlive = true;
+  ws.on("pong", heartbeat);
+
   try {
     const parsedUrl = url.parse(req.url, true);
     const { token, activityId } = parsedUrl.query || {};
@@ -360,6 +365,21 @@ function handleWsClose(ws) {
   }
 }
 
+const interval = setInterval(function ping() {
+  wss.clients.forEach(function each(ws) {
+    if (ws.isAlive === false) return ws.terminate();
+
+    ws.isAlive = false;
+    ws.ping();
+  });
+}, 30000);
+
+wss.on("close", function close() {
+  clearInterval(interval);
+});
+
 server.listen(PORT, "0.0.0.0", () => {
   console.log(`[SERVER] Listening on port ${PORT}`);
 });
+
+// psql 'postgresql://neondb_owner:npg_bfpvKR5W0VBQ@ep-red-haze-agevpz31-pooler.c-2.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require'
