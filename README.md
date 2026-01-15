@@ -1,5 +1,22 @@
 # Continuous Feedback App
 
+🔗 **Link aplicație:**  
+https://tud-dar-tw.vercel.app
+
+---
+
+## Conturi de Test
+
+### 👨‍🏫 Cont Profesor
+- **Email:** tudorica@gmail.com  
+- **Username:** tudorica  
+- **Parolă:** tudorica  
+
+### 👩‍🎓 Cont Student
+- **Email:** dariuta@gmail.com  
+- **Username:** dariuta  
+- **Parolă:** dariuta  
+
 ## Tehnologii Folosite
 
 - **Frontend (SPA):** **React.js**
@@ -34,23 +51,23 @@
 
 - **`profil`**
   - **profil_id** _(PK)_
-  - **nume_utilizator**
-  - **tip**
-  - **email**
+  - **nume_utilizator** _(unic)_
+  - **tip** _(ENUM: profesor, student)_
+  - **email** _(unic)_
   - **parola**
   - **created_at**
   - **updated_at**
 - **`cod`**
   - **cod_id** _(PK)_
   - **continut**
-  - **profesor_id** _(FK)_
+  - **profesor_id** _(FK → profil.profil_id)_
   - **este_aleatoriu**
   - **created_at**
   - **updated_at**
 - **`activitate`**
   - **activitate_id** _(PK)_
-  - **profesor_id** _(FK)_
-  - **cod_id** _(FK)_
+  - **profesor_id** _(FK → profil.profil_id)_
+  - **cod_id** _(FK → cod.cod_id)_
   - **titlu**
   - **descriere**
   - **ora_inceput**
@@ -60,9 +77,16 @@
   - **created_at**
   - **updated_at**
 - **`feedback`**
-  - **feedback_id**
-  - **activitate_id**
+  - **feedback_id** _(PK)_
+  - **activitate_id** _(FK → activitate.activitate_id)_
   - **emoticon**
+  - **created_at**
+- **`participare`**
+  - **participare_id** _(PK)_
+  - **student_id** _(FK → profil.profil_id)_
+  - **activitate_id** _(FK → activitate.activitate_id)_
+  - **joined_at**
+  - **last_action_at**
   - **created_at**
   - **updated_at**
 
