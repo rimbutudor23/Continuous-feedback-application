@@ -26,7 +26,7 @@ export default function StudentDashboard() {
               : "text-slate-700 hover:bg-slate-100"
           }`}
         >
-          Istoric activitati
+          Istoric
         </button>
         <button
           type="button"
@@ -37,7 +37,7 @@ export default function StudentDashboard() {
               : "text-slate-700 hover:bg-slate-100"
           }`}
         >
-          Detalii cont
+          Cont
         </button>
       </div>
 
@@ -71,7 +71,7 @@ function StudentHistoryPanel() {
         setItems(list);
       } catch (err) {
         console.error(err);
-        setError("Nu s-a putut incarca istoricul activitatilor.");
+        setError("Nu pot incarca istoricul.");
       } finally {
         setLoading(false);
       }
@@ -94,17 +94,15 @@ function StudentHistoryPanel() {
 
   return (
     <section className="bg-white border border-slate-200 rounded-lg p-4 shadow-sm">
-      <h2 className="text-sm font-semibold text-slate-800 mb-3">
-        Istoric activitati
-      </h2>
+      <h2 className="text-sm font-semibold text-slate-800 mb-3">Istoric</h2>
 
       {loading ? (
-        <div className="text-sm text-slate-500">Se incarca...</div>
+        <div className="text-sm text-slate-500">Incarcare...</div>
       ) : error ? (
         <div className="text-sm text-red-600">{error}</div>
       ) : items.length === 0 ? (
         <div className="text-sm text-slate-500">
-          Nu ai participat la nicio activitate inca.
+          Nu ai activitati in istoric.
         </div>
       ) : (
         <div className="space-y-2 max-h-[420px] overflow-y-auto pr-1 text-xs">
@@ -122,12 +120,14 @@ function StudentHistoryPanel() {
               <div className="mt-1 grid grid-cols-2 gap-x-4 gap-y-1 text-slate-500">
                 <div>
                   <span className="font-medium text-slate-600">
-                    Ultimul acces:
+                    Ultima actiune:
                   </span>{" "}
                   {formatDateTime(it.lastAccessAt || it.lastActionAt)}
                 </div>
                 <div>
-                  <span className="font-medium text-slate-600">Cod:</span>{" "}
+                  <span className="font-medium text-slate-600">
+                    Cod activitate:
+                  </span>{" "}
                   <span className="font-mono bg-slate-100 px-1.5 py-0.5 rounded">
                     {it.codContinut || "-"}
                   </span>
@@ -204,14 +204,13 @@ function StudentAccountPanel() {
         sessionStorage.setItem("authUser", JSON.stringify(updatedUser));
       }
 
-      setSuccess("Profil actualizat cu succes.");
+      setSuccess("Salvat.");
       setCurrentPassword("");
       setNewPassword("");
     } catch (err) {
       console.error(err);
       setError(
-        err?.data?.error?.message ||
-          "Nu s-a putut salva profilul. Verifica datele."
+        err?.data?.error?.message || "Nu s-a putut salva. Verifica datele."
       );
     } finally {
       setSaving(false);
@@ -219,9 +218,7 @@ function StudentAccountPanel() {
   }
 
   async function handleDeleteAccount() {
-    const ok = window.confirm(
-      "Esti sigur ca vrei sa stergi contul? Aceasta actiune este permanenta."
-    );
+    const ok = window.confirm("Stergi contul definitiv?");
     if (!ok) return;
 
     try {
@@ -229,19 +226,15 @@ function StudentAccountPanel() {
       logout();
     } catch (err) {
       console.error(err);
-      alert("Nu s-a putut sterge contul.");
+      alert("Nu s-a putut sterge.");
     }
   }
 
   return (
     <section className="bg-white border border-slate-200 rounded-lg p-4 shadow-sm space-y-4">
       <div>
-        <h3 className="text-sm font-semibold text-slate-800 mb-1">
-          Detalii cont student
-        </h3>
-        <p className="text-xs text-slate-500">
-          Actualizeaza datele de profil si, optional, parola.
-        </p>
+        <h3 className="text-sm font-semibold text-slate-800 mb-1">Cont</h3>
+        <p className="text-xs text-slate-500">Editeaza datele contului.</p>
       </div>
 
       <form onSubmit={handleSave} className="space-y-3 max-w-md">
@@ -272,7 +265,7 @@ function StudentAccountPanel() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label className="block text-xs font-medium text-slate-700 mb-1">
-              Parola curenta (optional)
+              Parola curenta
             </label>
             <input
               type="password"
@@ -283,7 +276,7 @@ function StudentAccountPanel() {
           </div>
           <div>
             <label className="block text-xs font-medium text-slate-700 mb-1">
-              Parola noua (optional)
+              Parola noua
             </label>
             <input
               type="password"
@@ -310,7 +303,7 @@ function StudentAccountPanel() {
           disabled={saving}
           className="inline-flex items-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          {saving ? "Se salveaza..." : "Salveaza profilul"}
+          {saving ? "Se salveaza..." : "Salveaza"}
         </button>
       </form>
 
@@ -319,15 +312,14 @@ function StudentAccountPanel() {
           Zona periculoasa
         </h4>
         <p className="text-xs text-slate-500 mb-2">
-          Stergerea contului va elimina profilul studentului si istoricul sau de
-          participare.
+          Stergerea contului va elimina contul si istoricul.
         </p>
         <button
           type="button"
           onClick={handleDeleteAccount}
           className="inline-flex items-center rounded-md border border-red-300 px-3 py-1.5 text-xs font-semibold text-red-700 hover:bg-red-50"
         >
-          Sterge contul definitiv
+          Sterge contul
         </button>
       </div>
     </section>

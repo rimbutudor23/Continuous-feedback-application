@@ -59,8 +59,7 @@ export default function ProfessorLinkPage() {
     } catch (err) {
       console.error(err);
       setLoginError(
-        err?.data?.error?.message ||
-          "Autentificare esuata. Verifica username/email si parola."
+        err?.data?.error?.message || "Autentificare esuata. Verifica datele."
       );
     } finally {
       setLoginLoading(false);
@@ -75,7 +74,7 @@ export default function ProfessorLinkPage() {
     setJoinSuccess(null);
 
     if (!code.trim()) {
-      setCheckError("Introdu un cod de activitate.");
+      setCheckError("Introdu codul activitatii.");
       return;
     }
 
@@ -130,7 +129,7 @@ export default function ProfessorLinkPage() {
       }
 
       setIsEnrolled(true);
-      setJoinSuccess("Te-ai inscris pentru activitatea curenta.");
+      setJoinSuccess("Inscriere facuta.");
     } catch (err) {
       console.error(err);
       setJoinError(
@@ -174,7 +173,7 @@ export default function ProfessorLinkPage() {
       console.error(err);
       setJoinError(
         err?.data?.error?.message ||
-          "Nu s-a putut intra in activitate. Incearca din nou."
+          "Nu s-a putut deschide activitatea. Incearca din nou."
       );
     } finally {
       setJoining(false);
@@ -198,8 +197,7 @@ export default function ProfessorLinkPage() {
               Intrare student in activitate
             </div>
             <p className="mt-1 text-xs text-slate-500">
-              Autentifica-te ca student, apoi introdu codul activitatii pentru a
-              verifica daca poti intra acum.
+              Autentifica-te ca student, apoi introdu codul activitatii.
             </p>
           </div>
 
@@ -209,7 +207,7 @@ export default function ProfessorLinkPage() {
               className="space-y-3 border border-slate-200 rounded-md p-3 bg-slate-50"
             >
               <div className="text-xs font-semibold text-slate-800 mb-1">
-                Autentificare student
+                Autentificare
               </div>
               <div>
                 <label className="block text-xs font-medium text-slate-700 mb-1">
@@ -246,16 +244,13 @@ export default function ProfessorLinkPage() {
                 disabled={loginLoading}
                 className="inline-flex items-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                {loginLoading
-                  ? "Se autentifica..."
-                  : "Autentifica-te ca student"}
+                {loginLoading ? "Se autentifica..." : "Intra in cont"}
               </button>
 
               {user && user.tip && user.tip !== "student" && (
                 <div className="text-[11px] text-slate-500 mt-2">
-                  Esti autentificat ca <b>{user.tip}</b>. Pentru a folosi
-                  aceasta pagina, trebuie sa te autentifici cu un cont de
-                  student.
+                  Esti autentificat ca <b>{user.tip}</b>. Pentru acces aici
+                  trebuie cont de student.
                   <button
                     type="button"
                     onClick={logout}
@@ -273,7 +268,7 @@ export default function ProfessorLinkPage() {
               <form onSubmit={handleCheck} className="space-y-3">
                 <div>
                   <label className="block text-xs font-medium text-slate-700 mb-1">
-                    Cod activitate
+                    Codul activitatii
                   </label>
                   <input
                     className="block w-full rounded-md border border-slate-300 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 uppercase tracking-[0.12em]"
@@ -301,7 +296,7 @@ export default function ProfessorLinkPage() {
               {checkResult?.activity && (
                 <div className="mt-4 border-t border-slate-200 pt-4">
                   <h2 className="text-xs font-semibold text-slate-800 mb-2">
-                    Rezultat verificare
+                    Detalii activitate
                   </h2>
                   <div className="border border-slate-200 rounded-md p-3 text-xs space-y-2">
                     <div className="text-sm font-semibold text-slate-900">
@@ -314,14 +309,14 @@ export default function ProfessorLinkPage() {
                     )}
 
                     <div className="text-slate-500">
-                      Perioada de acces:{" "}
+                      Acces:{" "}
                       <span className="font-medium text-slate-800">
                         {formatDateTime(checkResult.activity.accesibilDeLa)} –{" "}
                         {formatDateTime(checkResult.activity.accesibilPanaLa)}
                       </span>
                     </div>
                     <div className="text-slate-500">
-                      Interval activitate:{" "}
+                      Activitate:{" "}
                       <span className="font-medium text-slate-800">
                         {formatDateTime(checkResult.activity.oraInceput)} –{" "}
                         {formatDateTime(checkResult.activity.oraSfarsit)}
@@ -335,7 +330,7 @@ export default function ProfessorLinkPage() {
                       </span>
                     </div>
                     <div className="text-slate-500">
-                      Te-ai inscris pentru activitatea curenta:{" "}
+                      Esti inscris:{" "}
                       <span className="font-medium text-slate-800">
                         {isEnrolled ? "da" : "nu"}
                       </span>
@@ -376,9 +371,7 @@ export default function ProfessorLinkPage() {
                         onClick={handleEnroll}
                         className="mt-2 inline-flex items-center rounded-md bg-amber-600 px-3 py-1.5 text-[11px] font-semibold text-white shadow-sm hover:bg-amber-700 disabled:opacity-60 disabled:cursor-not-allowed"
                       >
-                        {joining
-                          ? "Se face inscrierea..."
-                          : "Inscrie-te la activitate"}
+                        {joining ? "Se inscrie..." : "Inscriere"}
                       </button>
                     )}
 
@@ -389,9 +382,7 @@ export default function ProfessorLinkPage() {
                         onClick={handleJoinLive}
                         className="mt-2 inline-flex items-center rounded-md bg-emerald-600 px-3 py-1.5 text-[11px] font-semibold text-white shadow-sm hover:bg-emerald-700 disabled:opacity-60 disabled:cursor-not-allowed"
                       >
-                        {joining
-                          ? "Se intra in activitate..."
-                          : "Intra in activitate"}
+                        {joining ? "Se deschide..." : "Intra live"}
                       </button>
                     )}
                   </div>

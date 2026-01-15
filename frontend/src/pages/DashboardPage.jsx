@@ -16,7 +16,7 @@ export default function DashboardPage() {
             Bine ai venit, {user.username}
           </div>
           <div className="text-xs text-slate-500">
-            Rol: {user.tip === "student" ? "Student" : "Profesor"}
+            {user.tip === "student" ? "Student" : "Profesor"}
           </div>
         </div>
         <button

@@ -20,7 +20,7 @@ export default function RegisterPage() {
       await register({ username, email, password, tip: type });
       navigate("/dashboard");
     } catch (err) {
-      setError("Inregistrare esuata. Verifica datele.");
+      setError("Inregistrare esuata. Verifica datele introduse.");
     } finally {
       setLoading(false);
     }
@@ -33,7 +33,7 @@ export default function RegisterPage() {
           Creeaza cont
         </h1>
         <p className="text-sm text-slate-500 mb-6">
-          Inregistreaza-te ca student sau profesor.
+          Creeaza cont pentru a continua.
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -99,17 +99,17 @@ export default function RegisterPage() {
             disabled={loading}
             className="inline-flex w-full items-center justify-center rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            {loading ? "Se creeaza contul..." : "Creeaza cont"}
+            {loading ? "Se creeaza..." : "Creeaza cont"}
           </button>
         </form>
 
         <p className="mt-4 text-sm text-slate-500">
-          Ai deja cont?{" "}
+          Ai deja cont? Intra in cont.{" "}
           <Link
             to="/login"
             className="font-medium text-indigo-600 hover:text-indigo-700"
           >
-            Autentifica-te
+            Intra in cont
           </Link>
         </p>
       </div>

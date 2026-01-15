@@ -48,7 +48,7 @@ export default function StudentActivityLivePage() {
   useEffect(() => {
     if (!token) {
       setConnectionStatus("error");
-      setWsError("Lipseste token-ul de autentificare.");
+      setWsError("Nu esti autentificat.");
       return;
     }
 
@@ -67,7 +67,7 @@ export default function StudentActivityLivePage() {
 
     ws.onerror = () => {
       setConnectionStatus("error");
-      setWsError("Eroare de conexiune la server.");
+      setWsError("Nu se poate conecta la server.");
     };
 
     ws.onmessage = (event) => {
@@ -100,19 +100,16 @@ export default function StudentActivityLivePage() {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4">
         <div className="bg-white border border-slate-200 rounded-lg px-6 py-4 shadow-sm text-sm text-slate-700 max-w-md w-full">
-          <div className="font-semibold mb-1">
-            Nu exista date pentru activitatea live.
-          </div>
+          <div className="font-semibold mb-1">Nu pot deschide activitatea.</div>
           <p className="text-xs text-slate-500 mb-3">
-            Aceasta pagina se deschide de obicei din fluxul de intrare in
-            activitate. Intoarce-te la dashboard si intra din nou in activitate.
+            Intra din nou din pagina profesorului si apoi deschide live.
           </p>
           <button
             type="button"
             onClick={() => navigate("/dashboard", { replace: true })}
             className="text-xs font-medium text-slate-600 border border-slate-300 rounded-md px-3 py-1.5 hover:bg-slate-100"
           >
-            Inapoi la dashboard
+            Inapoi
           </button>
         </div>
       </div>
@@ -164,12 +161,12 @@ export default function StudentActivityLivePage() {
 
   const connLabel =
     connectionStatus === "connecting"
-      ? "Se conecteaza..."
+      ? "Conectare..."
       : connectionStatus === "open"
       ? "Conectat"
       : connectionStatus === "closed"
       ? "Deconectat"
-      : "Eroare conexiune";
+      : "Eroare";
 
   const connColor =
     connectionStatus === "open"
@@ -182,9 +179,7 @@ export default function StudentActivityLivePage() {
     <div className="min-h-screen bg-slate-50 flex flex-col">
       <header className="border-b border-slate-200 bg-white px-4 py-3 flex items-center justify-between">
         <div>
-          <div className="text-xs text-slate-500 mb-0.5">
-            Activitate live (student)
-          </div>
+          <div className="text-xs text-slate-500 mb-0.5">Live</div>
           <div className="text-sm font-semibold text-slate-900">
             {activityFromState.titlu || "(fara titlu)"}
           </div>
@@ -194,14 +189,14 @@ export default function StudentActivityLivePage() {
           onClick={() => navigate("/dashboard", { replace: true })}
           className="text-xs font-medium text-slate-600 border border-slate-300 rounded-md px-3 py-1.5 hover:bg-slate-100"
         >
-          Iesi la dashboard
+          Iesi
         </button>
       </header>
 
       <main className="flex-1 px-4 py-4 max-w-3xl mx-auto w-full space-y-4">
         <section className="bg-white border border-slate-200 rounded-lg p-4 shadow-sm flex items-center justify-between">
           <div className="space-y-1">
-            <div className="text-xs text-slate-500">Status conexiune</div>
+            <div className="text-xs text-slate-500">Conexiune</div>
             <div className={`text-sm font-semibold ${connColor}`}>
               {connLabel}
             </div>
@@ -211,9 +206,7 @@ export default function StudentActivityLivePage() {
           </div>
 
           <div className="text-right">
-            <div className="text-xs text-slate-500">
-              Timp ramas din activitate
-            </div>
+            <div className="text-xs text-slate-500">Timp ramas</div>
             {remaining ? (
               <div className="text-lg font-semibold text-slate-900">
                 {remaining.minutes.toString().padStart(2, "0")}:
@@ -228,12 +221,10 @@ export default function StudentActivityLivePage() {
         <section className="bg-white border border-slate-200 rounded-lg p-4 shadow-sm space-y-4">
           <div>
             <h2 className="text-sm font-semibold text-slate-800 mb-1">
-              Trimite feedback
+              Feedback
             </h2>
             <p className="text-xs text-slate-500">
-              Alege un emoticon care arata cat de bine intelegi in momentul
-              actual. Poti trimite feedback de mai multe ori pe durata
-              activitatii.
+              Apasa un emoticon. Poti trimite de mai multe ori.
             </p>
           </div>
 
@@ -270,9 +261,9 @@ export default function StudentActivityLivePage() {
 
           {lastFeedback && (
             <div className="mt-2 text-xs text-slate-500">
-              Ultimul feedback trimis:{" "}
+              Ultimul:{" "}
               <span className="font-medium text-slate-900">
-                emoticon {lastFeedback.emoticon}
+                nivel {lastFeedback.emoticon}
               </span>{" "}
               la{" "}
               {lastFeedback.createdAt

@@ -47,8 +47,6 @@ function TeacherActivitiesPanel() {
   const [editSaving, setEditSaving] = useState(false);
   const [editError, setEditError] = useState(null);
 
-  const ACTIVITIES_PAGE_SIZE = 10;
-
   async function loadActivities(opts = {}) {
     const nextPage = opts.page ?? page;
     const start = (nextPage - 1) * ACTIVITIES_PAGE_SIZE;
@@ -85,7 +83,7 @@ function TeacherActivitiesPanel() {
       setPage(nextPage);
     } catch (err) {
       console.error(err);
-      setError("Nu s-au putut incarca activitatile.");
+      setError("Nu pot incarca activitatile.");
     } finally {
       setLoading(false);
     }
@@ -109,7 +107,7 @@ function TeacherActivitiesPanel() {
       setSelectedCodeId(null);
     } catch (err) {
       console.error(err);
-      setCodesError("Nu s-au putut incarca codurile.");
+      setCodesError("Nu pot incarca codurile.");
     } finally {
       setCodesLoading(false);
     }
@@ -187,7 +185,7 @@ function TeacherActivitiesPanel() {
       await loadActivities({ page: 1 });
     } catch (err) {
       console.error(err);
-      setCreateError("Nu s-a putut crea activitatea. Verifica datele.");
+      setCreateError("Nu s-a putut crea. Verifica datele.");
     } finally {
       setCreating(false);
     }
@@ -197,9 +195,7 @@ function TeacherActivitiesPanel() {
     const id = act.activitateId || act.id;
     if (!id) return;
 
-    const ok = window.confirm(
-      "Sigur vrei sa stergi aceasta activitate? Vor fi sterse si feedback-urile si participarile asociate."
-    );
+    const ok = window.confirm("Stergi activitatea definitiv?");
     if (!ok) return;
 
     try {
@@ -209,7 +205,7 @@ function TeacherActivitiesPanel() {
       await loadActivities({ page });
     } catch (err) {
       console.error(err);
-      alert("Nu s-a putut sterge activitatea.");
+      alert("Nu s-a putut sterge.");
     }
   }
 
@@ -256,9 +252,7 @@ function TeacherActivitiesPanel() {
 
   function startEditActivity(act) {
     if (act.status !== "future") {
-      alert(
-        "Se pot edita doar activitatile care nu au inceput (status 'future')."
-      );
+      alert("Poti edita doar activitatile care nu au inceput.");
       return;
     }
 
@@ -330,8 +324,7 @@ function TeacherActivitiesPanel() {
     } catch (err) {
       console.error(err);
       setEditError(
-        err?.data?.error?.message ||
-          "Nu s-au putut salva modificarile. Verifica datele."
+        err?.data?.error?.message || "Nu s-a putut salva. Verifica datele."
       );
     } finally {
       setEditSaving(false);
@@ -386,13 +379,9 @@ function TeacherActivitiesPanel() {
                 setPage(1);
               }}
             >
-              <option value="createdAt_desc">Create recent primele</option>
-              <option value="oraInceput_asc">
-                Cele mai apropiate ca start
-              </option>
-              <option value="oraInceput_desc">
-                Cele mai indepartate ca start
-              </option>
+              <option value="createdAt_desc">Create recent</option>
+              <option value="oraInceput_asc">Start apropiat</option>
+              <option value="oraInceput_desc">Start indepartat</option>
             </select>
 
             <button
@@ -400,18 +389,18 @@ function TeacherActivitiesPanel() {
               onClick={() => loadActivities({ page: 1 })}
               className="text-xs text-slate-500 hover:text-slate-700"
             >
-              Refresh
+              Reincarca
             </button>
           </div>
         </div>
 
         {loading ? (
-          <div className="text-sm text-slate-500">Se incarca...</div>
+          <div className="text-sm text-slate-500">Incarcare...</div>
         ) : error ? (
           <div className="text-sm text-red-600">{error}</div>
         ) : activities.length === 0 ? (
           <div className="text-sm text-slate-500">
-            Nu exista activitati pentru filtrele curente.
+            Nu ai activitati pentru filtrul ales.
           </div>
         ) : (
           <>
@@ -481,7 +470,7 @@ function TeacherActivitiesPanel() {
                             navigate(`/prof/activities/${id}/live`);
                           }}
                         >
-                          Intra in activitate
+                          Intra live
                         </button>
                       )}
 
@@ -494,7 +483,7 @@ function TeacherActivitiesPanel() {
                           navigate(`/prof/activities/${id}/stats`);
                         }}
                       >
-                        Vezi statistici
+                        Statistici
                       </button>
                     )}
 
@@ -655,7 +644,7 @@ function TeacherActivitiesPanel() {
                   disabled={editSaving}
                   className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-1.5 text-[11px] font-semibold text-white shadow-sm hover:bg-indigo-700 disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  {editSaving ? "Se salveaza..." : "Salveaza modificarile"}
+                  {editSaving ? "Se salveaza..." : "Salveaza"}
                 </button>
                 <button
                   type="button"
@@ -676,8 +665,7 @@ function TeacherActivitiesPanel() {
             Creeaza activitate noua
           </h3>
           <p className="text-xs text-slate-500">
-            Completeaza detaliile de baza ale activitatii. Poti genera un cod
-            automat sau poti alege un cod existent din lista.
+            Completeaza detaliile si alege codul.
           </p>
         </div>
 
@@ -790,8 +778,7 @@ function TeacherActivitiesPanel() {
 
             {codeMode === "auto" && (
               <p className="text-[11px] text-slate-500 mt-1">
-                Daca alegi aceasta optiune, sistemul va genera automat un cod
-                unic de 8 caractere pentru aceasta activitate.
+                Se genereaza automat un cod de 8 caractere.
               </p>
             )}
 
@@ -799,14 +786,13 @@ function TeacherActivitiesPanel() {
               <div className="mt-2 space-y-2">
                 {codesLoading ? (
                   <div className="text-[11px] text-slate-500">
-                    Se incarca lista de coduri...
+                    Incarcare coduri...
                   </div>
                 ) : codesError ? (
                   <div className="text-[11px] text-red-600">{codesError}</div>
                 ) : codes.length === 0 ? (
                   <div className="text-[11px] text-slate-500">
-                    Nu exista coduri disponibile. Creeaza un cod nou in tab-ul
-                    "Coduri personale" si revino aici.
+                    Nu ai coduri. Creeaza unul in "Coduri" si revino.
                   </div>
                 ) : (
                   <>
@@ -884,7 +870,7 @@ function TeacherActivitiesPanel() {
 
                     {selectedCodeId && (
                       <div className="text-[11px] text-emerald-700">
-                        Cod selectat:{" "}
+                        Selectat:{" "}
                         {
                           (
                             codes.find(

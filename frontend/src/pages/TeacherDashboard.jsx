@@ -252,7 +252,7 @@ function TeacherProfilePanel() {
         if (profil) {
           setUsername(profil.username || profil.numeUtilizator || "");
           setEmail(profil.email || "");
-          +setProfLinkUrl(profil.profLinkUrl || "");
+          setProfLinkUrl(profil.profLinkUrl || "");
         }
       } catch (err) {
         console.error(err);
@@ -332,9 +332,7 @@ function TeacherProfilePanel() {
           Detalii cont profesor
         </h3>
         <p className="text-xs text-slate-500">
-          Actualizeaza datele de profil si, optional, parola. Pentru proiectul
-          curent, aceasta sectiune demonstreaza rutele /account
-          (GET/PUT/DELETE).
+          Actualizeaza datele de profil si, optional, parola.
         </p>
       </div>
 
@@ -413,9 +411,9 @@ function TeacherProfilePanel() {
               </button>
             </div>
             <p className="mt-1 text-[11px] text-slate-500">
-              Copiaza acest URL si distribuie-l studentilor. Dupa login, ei vor
-              vedea pagina dedicata profesorului tau pentru introducerea codului
-              de activitate.
+              Copiaza acest URL si trimite-l studentilor. Dupa autentificare,
+              acestia pot introduce codul activitatii pentru a verifica si intra
+              in activitate.
             </p>
           </div>
         )}
@@ -470,8 +468,8 @@ function TeacherProfilePanel() {
           Zona periculoasa
         </h4>
         <p className="text-xs text-slate-500 mb-2">
-          Stergerea contului va elimina profilul profesorului si toate
-          dependentele legate de acesta, conform regulilor definite in backend.
+          Stergerea contului va elimina profilul profesorului si toate datele
+          asociate (coduri, activitati, feedback si participari).
         </p>
         <button
           type="button"

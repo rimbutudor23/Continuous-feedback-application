@@ -18,7 +18,7 @@ export default function LoginPage() {
       await login(identifier, password);
       navigate("/dashboard");
     } catch (err) {
-      setError("Login esuat. Verifica datele.");
+      setError("Autentificare esuata. Verifica username/email si parola.");
     } finally {
       setLoading(false);
     }
@@ -31,7 +31,7 @@ export default function LoginPage() {
           Autentificare
         </h1>
         <p className="text-sm text-slate-500 mb-6">
-          Intra in contul tau de student sau profesor.
+          Autentifica-te pentru a continua.
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -71,12 +71,12 @@ export default function LoginPage() {
             disabled={loading}
             className="inline-flex w-full items-center justify-center rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            {loading ? "Se autentifica..." : "Autentificare"}
+            {loading ? "Se autentifica..." : "Intra in cont"}
           </button>
         </form>
 
         <p className="mt-4 text-sm text-slate-500">
-          Nu ai cont?{" "}
+          Nu ai cont inca?{" "}
           <Link
             to="/register"
             className="font-medium text-indigo-600 hover:text-indigo-700"

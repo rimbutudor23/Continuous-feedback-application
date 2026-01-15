@@ -66,7 +66,7 @@ export default function TeacherActivityStatsPage() {
         setData(resp);
       } catch (err) {
         console.error(err);
-        setError("Nu s-au putut incarca statisticile pentru activitate.");
+        setError("Nu pot incarca statisticile.");
       } finally {
         setLoading(false);
       }
@@ -196,7 +196,7 @@ export default function TeacherActivityStatsPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <div className="text-sm text-slate-600">Se incarca statisticile...</div>
+        <div className="text-sm text-slate-600">Incarcare...</div>
       </div>
     );
   }
@@ -210,7 +210,7 @@ export default function TeacherActivityStatsPage() {
             to="/dashboard"
             className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-indigo-700"
           >
-            Inapoi la dashboard
+            Inapoi
           </Link>
         </div>
       </div>
@@ -221,9 +221,7 @@ export default function TeacherActivityStatsPage() {
     <div className="min-h-screen bg-slate-50 flex flex-col">
       <header className="border-b border-slate-200 bg-white px-4 py-3 flex items-center justify-between">
         <div>
-          <div className="text-xs text-slate-500 mb-0.5">
-            Statistici activitate
-          </div>
+          <div className="text-xs text-slate-500 mb-0.5">Statistici</div>
           <div className="text-sm font-semibold text-slate-900">
             {activity?.titlu || "(fara titlu)"}
           </div>
@@ -232,7 +230,7 @@ export default function TeacherActivityStatsPage() {
           to="/dashboard"
           className="text-xs font-medium text-slate-600 border border-slate-300 rounded-md px-3 py-1.5 hover:bg-slate-100"
         >
-          Inapoi la dashboard
+          Inapoi
         </Link>
       </header>
 
@@ -298,31 +296,29 @@ export default function TeacherActivityStatsPage() {
                 {summary?.participantsCount ?? 0}
               </div>
               <div className="text-[11px] text-slate-500">
-                {summary?.participantsWithFeedbackCount ?? 0} au trimis cel
-                putin un feedback.
+                {summary?.participantsWithFeedbackCount ?? 0} au trimis
+                feedback.
               </div>
             </div>
             <div className="border border-slate-200 rounded-md p-3">
-              <div className="text-xs text-slate-500 mb-1">
-                Numar feedback-uri
-              </div>
+              <div className="text-xs text-slate-500 mb-1">Total feedback</div>
               <div className="text-xl font-semibold text-slate-900">
                 {summary?.feedbackCount ?? 0}
               </div>
               <div className="text-[11px] text-slate-500">
-                Medie per participant:{" "}
+                Medie/participant:{" "}
                 {summary?.avgFeedbackPerParticipant != null
                   ? Number(summary.avgFeedbackPerParticipant).toFixed(2)
                   : "-"}
               </div>
             </div>
             <div className="border border-slate-200 rounded-md p-3">
-              <div className="text-xs text-slate-500 mb-1">Durata & ritm</div>
+              <div className="text-xs text-slate-500 mb-1">Durata</div>
               <div className="text-xl font-semibold text-slate-900">
                 {summary?.durationMinutes ?? "-"} min
               </div>
               <div className="text-[11px] text-slate-500">
-                Feedback-uri / minut:{" "}
+                Feedback/min:{" "}
                 {summary?.feedbackPerMinute != null
                   ? Number(summary.feedbackPerMinute).toFixed(2)
                   : "-"}
@@ -333,7 +329,7 @@ export default function TeacherActivityStatsPage() {
 
         <section className="bg-white border border-slate-200 rounded-lg p-4 shadow-sm">
           <h2 className="text-sm font-semibold text-slate-800 mb-3">
-            Distributie pe emoticon
+            Distributie
           </h2>
           <div className="flex flex-col md:flex-row md:items-center gap-4">
             <div className="w-full md:w-1/2" style={{ height: 220 }}>
@@ -386,18 +382,14 @@ export default function TeacherActivityStatsPage() {
 
         <section className="bg-white border border-slate-200 rounded-lg p-4 shadow-sm">
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-sm font-semibold text-slate-800">
-              Feedback in timp (pe minute, pe emoticon)
-            </h2>
+            <h2 className="text-sm font-semibold text-slate-800">Pe minute</h2>
 
-            <div className="text-[11px] text-slate-500">
-              Minute de la inceputul activitatii (0 = start)
-            </div>
+            <div className="text-[11px] text-slate-500">Minute de la start</div>
           </div>
 
           {minuteChartData.length === 0 ? (
             <div className="text-xs text-slate-500">
-              Nu exista suficiente date pentru a construi graficul pe minute.
+              Nu exista date pentru grafic.
             </div>
           ) : (
             <div className="w-full" style={{ height: 400 }}>
@@ -407,11 +399,8 @@ export default function TeacherActivityStatsPage() {
                   <XAxis dataKey="label" tick={{ fontSize: 10 }} />
                   <YAxis allowDecimals={false} tick={{ fontSize: 10 }} />
                   <RechartsTooltip
-                    formatter={(value, name) => [
-                      `${value}`,
-                      "Feedback-uri in minutul selectat",
-                    ]}
-                    labelFormatter={(label) => `Minutul ${label} de la start`}
+                    formatter={(value, name) => [`${value}`, "Total"]}
+                    labelFormatter={(label) => `Minutul ${label}`}
                   />
                   {EMOJI_CONFIG.map((cfg) => (
                     <Bar
